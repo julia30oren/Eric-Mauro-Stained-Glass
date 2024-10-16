@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Front test</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <main>
+        <div>
+            <label>Name:</label>
+            <input type="text" id="name-input">
+            <label>Image URL:</label>
+            <input type="text" id="img-url-input">
+            <label>Description:</label>
+            <input type="text" id="description-input">
+            <label>Date:</label>
+            <input type="date" id="date-input">
+            <button id="add-img-btn">Add Image</button>
+        </div>
+
+        <div hidden id="update-image">
+            <section>
+                <label>Name:</label>
+                <input type="text" id="update-name-input">
+                <!-- <label>Description:</label>
+                <input type="text" id="update-description-input"> -->
+                <button id="update-img-btn">Update Image</button>
+            </section>
+        </div>
+
+        <div>
+            <table id="table">
+                <thead>
+                    <th>ID</th>
+                    <th>Thumbnail</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Date Added</th>
+                    <th></th>
+                    <th></th>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </main>
+
+    <script src="index.js"></script>
+</body>
+
+</html>

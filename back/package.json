@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "gitignore": "^0.7.0",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.11.3"
+  },
+  "name": "back",
+  "version": "1.0.0",
+  "main": "back.js",
+  "scripts": {
+    "dev": "node back.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
