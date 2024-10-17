@@ -111,13 +111,13 @@ class DbService {
         }
     }
 
-    async updateById(id, title) {
+    async updateById(id, title, description, date) {
         try {
             id = parseInt(id, 10); 
             const response = await new Promise((resolve, reject) => {
-                const query = "UPDATE images SET title = ? WHERE id = ?";
+                const query = "UPDATE images SET title = ?,description = ?, createdAt = ? WHERE id = ?";
     
-                connection.query(query, [title, id] , (err, result) => {
+                connection.query(query, [title, description, date, id] , (err, result) => {
                     if (err) reject(new Error(err.message));
                     resolve(result.affectedRows);
                 })

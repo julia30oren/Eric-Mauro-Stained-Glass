@@ -1,29 +1,55 @@
 main {
-    max-width: 500px;
+    max-width: 800px;
     margin: 50px auto;
 }
 
-main div {
+main>div {
     margin: 50px auto;
 }
 
-table,
-th,
-td {
-    border-collapse: collapse;
-    border: solid 1px #000;
-}
-
-th,
-td{
-    padding: 5px;
-}
-
-.no-data{
+.no-data {
     text-align: center;
 }
 
-.thumbnail{
+.thumbnail {
     max-width: 100px;
     max-height: 100px;
+}
+
+.update-image {
+    max-width: 700px;
+    max-height: fit-content;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.update-image>.input-group {
+    margin: 32px;
+    padding: 18px;
+}
+
+.btn-close-div {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-close {
+    padding: 8px;
+}
+
+.edit-btn-div{
+    width: 100%;
+    padding: 12px;
 }

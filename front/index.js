@@ -1,11 +1,24 @@
 const localhost = 'http://localhost:3000';
 let portfolio;
 
-document.querySelector('table tbody').addEventListener('click', (event) => {
-    if (event.target.className === "delete-row-btn") {
+var table = document.querySelector('table tbody');
+const add_btn = document.querySelector('#add-img-btn');
+const addSection = document.querySelector('#add-image');
+const openAddBtn = document.querySelector('#open-add-section-btn');
+const closeAddBtn = document.querySelector('#close-add-btn');
+
+const updateSection = document.querySelector('#update-image');
+const updateBtn = document.querySelector('#update-img-btn');
+const closeUpdateBtn = document.querySelector('#close-update-btn');
+const title_input_update = document.querySelector('#update-name-input');
+const description_input_update = document.querySelector('#update-description-input');
+const date_input_update = document.querySelector('#update-date-input');
+
+table.addEventListener('click', (event) => {
+    if (event.target.className === "delete-row-btn btn btn-danger") {
         deleteImageById(event.target.dataset.id);
     }
-    if (event.target.className === "edit-row-btn") {
+    if (event.target.className === "edit-row-btn btn btn-warning") {
         handleEditImage(event.target.dataset.id);
     }
 });
@@ -16,40 +29,45 @@ function deleteImageById(id) {
     })
         .then(response => response.json())
         .then(data => {
-            // console.log(data)
             if (data.success) {
                 location.reload();
             }
         });
 }
 
-const updateBtn = document.querySelector('#update-img-btn');
-
 function handleEditImage(id) {
-    const updateSection = document.querySelector('#update-image');
     updateSection.hidden = false;
 
     portfolio.forEach(element => {
         if (element.id === Number(id)) {
-            const title_input_update = document.querySelector('#update-name-input');
             title_input_update.value = element.title;
+            description_input_update.value = element.description;
+            date_input_update.value = element.createdAt.substring(0, 10);
         }
     });
 
-    document.querySelector('#update-name-input').dataset.id = id;
+    title_input_update.dataset.id = id;
+}
+
+openAddBtn.onclick = () => {
+    addSection.hidden = false;
+}
+
+closeAddBtn.onclick = () => {
+    addSection.hidden = true;
 }
 
 updateBtn.onclick = () => {
-    const updateNameInput = document.querySelector('#update-name-input');
-
     fetch(localhost + '/update', {
         method: 'PATCH',
         headers: {
             'Content-type': 'application/json'
         },
         body: JSON.stringify({
-            id: updateNameInput.dataset.id,
-            name: updateNameInput.value
+            id: title_input_update.dataset.id,
+            name: title_input_update.value,
+            description: description_input_update.value,
+            date: date_input_update.value
         })
     })
         .then(response => response.json())
@@ -60,7 +78,10 @@ updateBtn.onclick = () => {
         })
 }
 
-const add_btn = document.querySelector('#add-img-btn');
+closeUpdateBtn.onclick = () => {
+    updateSection.hidden = true;
+    title_input_update.value = '';
+}
 
 add_btn.onclick = () => {
     const title_input = document.querySelector('#name-input');
@@ -79,20 +100,31 @@ add_btn.onclick = () => {
     const date = date_input.value;
     date_input.value = "";
 
-    fetch(localhost + '/insert', {
-        headers: {
-            'Content-type': 'application/json'
-        },
-        method: 'POST',
-        body: JSON.stringify({ title: title, url: url, description: description, date: date })
-    })
-        .then(response => response.json())
-        .then(data => insertRowIntoTable(data['data']));
+    if (url && url.length > 5) {
+        if (isValidUrl(url)) {
+            fetch(localhost + '/insert', {
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                method: 'POST',
+                body: JSON.stringify({ title: title, url: url, description: description, date: date })
+            })
+                .then(response => response.json())
+                .then(data => insertRowIntoTable(data['data']));
+            addSection.hidden = true;
+        } else {
+            const invalidFeedback2 = document.querySelector('#invalid-feedback-2');
+            invalidFeedback2.hidden = false;
+        }
+    } else {
+        const invalidFeedback1 = document.querySelector('#invalid-feedback-1');
+        invalidFeedback1.hidden = false;
+    }
+
 };
 
 function insertRowIntoTable(data) {
     console.log(data);
-    const table = document.querySelector('table tbody');
     const isTableData = table.querySelector('.no-data');
 
     let tableHtml = "<tr>";
@@ -109,8 +141,8 @@ function insertRowIntoTable(data) {
         }
     }
 
-    tableHtml += `<td><button class="delete-row-btn" data-id=${data.id}>Delete</td>`;
-    tableHtml += `<td><button class="edit-row-btn" data-id=${data.id}>Edit</td>`;
+    tableHtml += `<td><button class="delete-row-btn btn btn-danger" data-id=${data.id}>Delete</td>`;
+    tableHtml += `<td><button class="edit-row-btn btn btn-warning" data-id=${data.id}>Edit</td>`;
 
     tableHtml += "</tr>";
 
@@ -123,8 +155,6 @@ function insertRowIntoTable(data) {
 }
 
 function loadHTMLtable(data) {
-    const table = document.querySelector('table tbody');
-    // console.log(data);
     if (data.length === 0) {
         table.innerHTML = `<tr>
                                 <td class='no-data' colspan='5'>No Data</td>
@@ -137,12 +167,12 @@ function loadHTMLtable(data) {
     data.forEach(element => {
         tableHtml += "<tr>";
         tableHtml += `<td>${element.id}</td>`;
-        tableHtml += `<td><img src="${element.url}" class="thumbnail"></td>`;
+        tableHtml += `<td><img src="${element.url}" class="thumbnail" alt="Bad Thumbnail URL"></td>`;
         tableHtml += `<td>${element.title ? element.title : ''}</td>`;
         tableHtml += `<td>${element.description ? element.description : ''}</td>`;
         tableHtml += `<td>${new Date(element.createdAt).toLocaleDateString()}</td>`;
-        tableHtml += `<td><button class="delete-row-btn" data-id=${element.id}>Delete</td>`;
-        tableHtml += `<td><button class="edit-row-btn" data-id=${element.id}>Edit</td>`;
+        tableHtml += `<td><button class="delete-row-btn btn btn-danger" data-id=${element.id}>Delete</td>`;
+        tableHtml += `<td><button class="edit-row-btn btn btn-warning" data-id=${element.id}>Edit</td>`;
         tableHtml += "</tr>";
     });
 
@@ -157,3 +187,15 @@ document.addEventListener('DOMContentLoaded', () => {
             portfolio = data['data'];
         });
 });
+
+const isValidUrl = urlString => {
+    var inputElement = document.createElement('input');
+    inputElement.type = 'url';
+    inputElement.value = urlString;
+
+    if (!inputElement.checkValidity()) {
+        return false;
+    } else {
+        return true;
+    }
+}

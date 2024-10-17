@@ -37,10 +37,10 @@ app.get('/getall', (req, res) => {
 
 // Update
 app.patch('/update', (req, res) => {
-    const { id, name } = req.body;
+    const { id, name, description, date } = req.body;
     const db = dbService.getDbServiceInstance();
 
-    const result = db.updateById(id, name);
+    const result = db.updateById(id, name, description, date);
 
     result
         .then(data => res.json({ success: data }))
