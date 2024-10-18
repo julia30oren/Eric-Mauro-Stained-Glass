@@ -1,6 +1,13 @@
 const localhost = 'http://localhost:3000';
 let portfolio;
 
+const imgTableUpdateSection = document.querySelector('#img-table-update');
+const logInSection = document.querySelector('#log-in');
+const logInUserInput = document.querySelector('#log-in-user');
+const logInPasswordInput = document.querySelector('#log-in-password');
+const logInBtn = document.querySelector('#log-in-btn');
+const invalidInfo = document.querySelector('#invalid-info');
+
 var table = document.querySelector('table tbody');
 const add_btn = document.querySelector('#add-img-btn');
 const addSection = document.querySelector('#add-image');
@@ -13,6 +20,32 @@ const closeUpdateBtn = document.querySelector('#close-update-btn');
 const title_input_update = document.querySelector('#update-name-input');
 const description_input_update = document.querySelector('#update-description-input');
 const date_input_update = document.querySelector('#update-date-input');
+
+function adminValidationCheck() {
+    fetch(localhost + '/admin/' + logInUserInput.value + '/' + logInPasswordInput.value)
+        .then(response => response.json())
+        .then(data => {
+            if (data[0]) {
+                logInSection.hidden = true;
+                imgTableUpdateSection.hidden = false;
+                setCookie("username", logInUserInput.value);
+            } else {
+                invalidInfo.innerHTML = `<sapn class="red-txt">* User/Password incorrect.</sapn>`
+            }
+        });
+}
+
+logInBtn.addEventListener('click', () => {
+    invalidInfo.innerHTML = ``;
+
+    if (!logInUserInput.value && !logInPasswordInput.value) {
+        invalidInfo.innerHTML = `<sapn class="red-txt">* User can not be empty.</sapn><br><sapn class="red-txt">* Password can not be empty.</sapn>`
+    } else if (!logInUserInput.value && logInPasswordInput.value) {
+        invalidInfo.innerHTML = `<sapn class="red-txt">* User can not be empty.</sapn>`
+    } else if (logInUserInput.value && !logInPasswordInput.value) {
+        invalidInfo.innerHTML = `<sapn class="red-txt">* Password can not be empty.</sapn>`
+    } else adminValidationCheck();
+});
 
 table.addEventListener('click', (event) => {
     if (event.target.className === "delete-row-btn btn btn-danger") {
@@ -124,7 +157,6 @@ add_btn.onclick = () => {
 };
 
 function insertRowIntoTable(data) {
-    // console.log(data);
     const isTableData = table.querySelector('.no-data');
 
     let tableHtml = "<tr>";
@@ -153,6 +185,39 @@ function insertRowIntoTable(data) {
         newRow.innerHTML = tableHtml;
     }
 }
+function setCookie(cname, cvalue) {
+    const d = new Date();
+    d.setTime(d.getTime() + (24 * 60 * 60 * 1000));
+    let expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+function checkCookie() {
+    let user = getCookie("username");
+    if (user && user != "") {
+        console.log(user + " loged-in");
+        logInSection.hidden = true;
+        imgTableUpdateSection.hidden = false;
+    } else {
+        console.log(user + " NOT loged-in");
+    }
+}
 
 function loadHTMLtable(data) {
     if (data.length === 0) {
@@ -177,6 +242,8 @@ function loadHTMLtable(data) {
     });
 
     table.innerHTML = tableHtml;
+
+    checkCookie();
 };
 
 document.addEventListener('DOMContentLoaded', () => {
