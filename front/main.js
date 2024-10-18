@@ -1,3 +1,6 @@
+const localhost = 'http://localhost:3000';
+let portfolio;
+
 let page = "about";
 let current_content;
 let div = document.getElementById("first-d");
@@ -89,75 +92,88 @@ let p_content = [
     },
     {
         page: `portfolio`,
-        content: `
-                <div class="portfolio">
-            <div class="portfolio-col">
-                <img class="animate__animated animate__zoomIn animate__slow"
-                    src="https://i.pinimg.com/originals/19/00/eb/1900eb0d770b7e56b36146d1f409763c.png">
-                <img class="animate__animated animate__zoomIn animate__slow"
-                    src="https://i.pinimg.com/originals/bd/aa/f2/bdaaf21dd82149113f6ca18927db6d18.jpg">
-                <img class="animate__animated animate__zoomIn animate__slow"
-                    src="https://i.pinimg.com/originals/20/b8/df/20b8df6bf20e0315a50c3636b2169ead.jpg">
-                <img class="animate__animated animate__zoomIn animate__slow"
-                    src="https://i.pinimg.com/originals/74/65/df/7465df8ffd23328a927b19ee2035d42b.jpg">
-                <img class="animate__animated animate__zoomIn animate__slow"
-                    src="https://i.pinimg.com/originals/a2/4c/49/a24c49a3a0ed4fb5dc596e64d82dcbbe.jpg">
-                <img class="animate__animated animate__zoomIn animate__slow"
-                    src="https://i.pinimg.com/originals/4f/09/8d/4f098d82da22f40011051a549048db50.jpg">
-                <img class="animate__animated animate__zoomIn animate__slow"
-                    src="https://i.pinimg.com/originals/ef/83/a5/ef83a5d85606e3a976a595c42c750c70.jpg">
-                <img class="animate__animated animate__zoomIn animate__slow"
-                    src="https://i.pinimg.com/originals/6e/f8/73/6ef873beabee27781bb92f9b527f73be.jpg">
-                <img class="animate__animated animate__zoomIn animate__slow"
-                    src="https://i.pinimg.com/originals/02/38/bb/0238bb3460aeb739129168396d7c9521.jpg">
-                <!-- <img  class="animate__animated animate__zoomIn animate__slow" src=""> -->
-            </div>
-    
-            <div class="portfolio-col">
-                <img class="animate__animated animate__zoomIn animate__slow"
-                    src="https://i.pinimg.com/originals/9e/a9/1a/9ea91ab110bbf8553545855d49dda4ed.jpg">
-                <img class="animate__animated animate__zoomIn animate__slow"
-                    src="https://i.pinimg.com/originals/a6/d8/2d/a6d82d8d62ae9fa19e57bad6860c3e48.jpg">
-                <img class="animate__animated animate__zoomIn animate__slow"
-                    src="https://i.pinimg.com/originals/0e/c1/3d/0ec13d11b813214348d61ae485943491.jpg">
-                <img class="animate__animated animate__zoomIn animate__slow"
-                    src="https://i.pinimg.com/originals/3a/6f/6f/3a6f6f708f91c34570f1d3a7d2b52702.png">
-                <img class="animate__animated animate__zoomIn animate__slow"
-                    src="https://i.pinimg.com/originals/e1/b4/76/e1b4761f4f7ec5995ba36c52777c8324.jpg">
-                <img class="animate__animated animate__zoomIn animate__slow"
-                    src="https://i.pinimg.com/originals/cd/e4/c6/cde4c6be8739bb086b76544207891af4.jpg">
-                <img class="animate__animated animate__zoomIn animate__slow"
-                    src="https://i.pinimg.com/originals/59/1c/2c/591c2c3482ce49e00d7aa5f20aa51154.jpg">
-                <img class="animate__animated animate__zoomIn animate__slow"
-                    src="https://i.pinimg.com/originals/f4/5a/15/f45a1598d98f0e8b20be709399b91baa.jpg">
-                <img class="animate__animated animate__zoomIn animate__slow"
-                    src="https://i.pinimg.com/originals/29/fa/96/29fa96794c3d9c8d5fd338df67739f41.jpg">
-            </div>
-    
-            <div class="portfolio-col">
-                <img class="animate__animated animate__zoomIn animate__slow"
-                    src="https://i.pinimg.com/originals/4c/bf/5e/4cbf5e0be3409f72360c461457ffb847.png">
-                <img class="animate__animated animate__zoomIn animate__slow"
-                    src="https://i.pinimg.com/originals/01/6b/0c/016b0cb3550f48eb2a3594ab8295122f.jpg">
-                <img class="animate__animated animate__zoomIn animate__slow"
-                    src="https://i.pinimg.com/originals/da/74/1b/da741b81e00307171a88acd01e416ddf.jpg">
-                <img class="animate__animated animate__zoomIn animate__slow"
-                    src="https://i.pinimg.com/originals/08/75/fb/0875fbbffc1cfd2e7ffb6da8452683d2.png">
-                <img class="animate__animated animate__zoomIn animate__slow"
-                    src="https://i.pinimg.com/originals/a2/65/e6/a265e6c0819c7c4353d824021e3b65e5.jpg">
-                <img class="animate__animated animate__zoomIn animate__slow"
-                    src="https://i.pinimg.com/originals/a2/54/b7/a254b759c57ad08ab957a7140c3d311f.jpg">
-                <img class="animate__animated animate__zoomIn animate__slow"
-                    src="https://i.pinimg.com/originals/d5/b4/08/d5b408593b7ac8d8fa71129381c3679e.jpg">
-                <img class="animate__animated animate__zoomIn animate__slow"
-                    src="https://i.pinimg.com/originals/d0/0e/aa/d00eaa4a62823c13ef1afe83818e700d.jpg">
-            </div>
-        </div>`
+        content: ``
     }
 ];
 
-div.innerHTML = p_content[0].content;
+function loadHTMLportfolio() {
+    var port = `<div class="portfolio" id="portfolio-div">`;
 
+    if (screen.width < 768) {
+        let portfolio_div1_Html = `<div class="portfolio-col">`;
+        let portfolio_div2_Html = `<div class="portfolio-col">`;
+        for (i = 0; i < portfolio.length; i++) {
+            if (i % 2 === 1) {
+                portfolio_div1_Html += `<div class="animate__animated animate__zoomIn animate__slow Portfolio-IMG">`;
+                portfolio_div1_Html += `<img src="${portfolio[i].url}" class="" alt="${portfolio[i].title ? portfolio[i].title : ''}">`;
+                portfolio_div1_Html += `<h3>${portfolio[i].title ? portfolio[i].title : ''}</h3>`;
+                portfolio_div1_Html += `<small>${portfolio[i].description ? portfolio[i].description : ''}</small>`;
+                portfolio_div1_Html += `</div>`;
+            } else {
+                portfolio_div2_Html += `<div class="animate__animated animate__zoomIn animate__slow Portfolio-IMG">`;
+                portfolio_div2_Html += `<img src="${portfolio[i].url}" class="" alt="${portfolio[i].title ? portfolio[i].title : ''}">`;
+                portfolio_div2_Html += `<h3>${portfolio[i].title ? portfolio[i].title : ''}</h3>`;
+                portfolio_div2_Html += `<small>${portfolio[i].description ? portfolio[i].description : ''}</small>`;
+                portfolio_div2_Html += `</div>`;
+            }
+        }
+        portfolio_div1_Html += `</div>`;
+        portfolio_div2_Html += `</div>`;
+
+        port += portfolio_div1_Html + portfolio_div2_Html;
+    }
+    else {
+        let portfolio_div1_Html = `<div class="portfolio-col">`;
+        let portfolio_div2_Html = `<div class="portfolio-col">`;
+        let portfolio_div3_Html = `<div class="portfolio-col">`;
+        for (i = 0; i < portfolio.length; i++) {
+            if (i % 3 == 0) { //every 3rd element
+                portfolio_div2_Html += `<div class="animate__animated animate__zoomIn animate__slow Portfolio-IMG">`;
+                portfolio_div2_Html += `<img src="${portfolio[i].url}" class="" alt="${portfolio[i].title ? portfolio[i].title : ''}">`;
+                portfolio_div2_Html += `<h3>${portfolio[i].title ? portfolio[i].title : ''}</h3>`;
+                portfolio_div2_Html += `<small>${portfolio[i].description ? portfolio[i].description : ''}</small>`;
+                portfolio_div2_Html += `</div>`;
+            }
+            else if ((i + 1) % 3 == 0) { //every 2nd element
+                portfolio_div3_Html += `<div class="animate__animated animate__zoomIn animate__slow Portfolio-IMG">`;
+                portfolio_div3_Html += `<img src="${portfolio[i].url}" class="" alt="${portfolio[i].title ? portfolio[i].title : ''}">`;
+                portfolio_div3_Html += `<h3>${portfolio[i].title ? portfolio[i].title : ''}</h3>`;
+                portfolio_div3_Html += `<small>${portfolio[i].description ? portfolio[i].description : ''}</small>`;
+                portfolio_div3_Html += `</div>`;
+            }
+            else {
+                portfolio_div1_Html += `<div class="animate__animated animate__zoomIn animate__slow Portfolio-IMG">`;
+                portfolio_div1_Html += `<img src="${portfolio[i].url}" class="" alt="${portfolio[i].title ? portfolio[i].title : ''}">`;
+                portfolio_div1_Html += `<h3>${portfolio[i].title ? portfolio[i].title : ''}</h3>`;
+                portfolio_div1_Html += `<small>${portfolio[i].description ? portfolio[i].description : ''}</small>`;
+                portfolio_div1_Html += `</div>`;
+            }
+        }
+        portfolio_div1_Html += `</div>`;
+        portfolio_div2_Html += `</div>`;
+        portfolio_div3_Html += `</div>`;
+
+        port += portfolio_div1_Html + portfolio_div2_Html + portfolio_div3_Html;
+    }
+    port += `</div>`;
+
+    p_content.forEach(element => {
+        if (element.page === 'portfolio') element.content = port;
+    });
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (!portfolio) {
+        fetch(localhost + '/getall')
+            .then(res => res.json())
+            .then(data => {
+                portfolio = data['data'];
+                loadHTMLportfolio();
+            });
+    }
+});
+
+div.innerHTML = p_content[0].content;
 
 function getnewContent() {
     p_content.forEach(element => {

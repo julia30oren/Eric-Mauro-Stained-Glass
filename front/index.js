@@ -124,7 +124,7 @@ add_btn.onclick = () => {
 };
 
 function insertRowIntoTable(data) {
-    console.log(data);
+    // console.log(data);
     const isTableData = table.querySelector('.no-data');
 
     let tableHtml = "<tr>";
