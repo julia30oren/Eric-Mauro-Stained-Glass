@@ -22,7 +22,7 @@ const description_input_update = document.querySelector('#update-description-inp
 const date_input_update = document.querySelector('#update-date-input');
 
 function adminValidationCheck() {
-    fetch(host + '/admin/' + logInUserInput.value + '/' + logInPasswordInput.value)
+    fetch(host + '/' + logInUserInput.value + '/' + logInPasswordInput.value)
         .then(response => response.json())
         .then(data => {
             if (data[0]) {
