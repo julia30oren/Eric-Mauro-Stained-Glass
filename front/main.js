@@ -1,4 +1,4 @@
-const host = 'http://172.31.19.85:3000';
+const host = 'http://13.59.200.71:3000';
 let portfolio;
 
 let page = "about";
@@ -104,13 +104,13 @@ function loadHTMLportfolio() {
         let portfolio_div2_Html = `<div class="portfolio-col">`;
         for (i = 0; i < portfolio.length; i++) {
             if (i % 2 === 1) {
-                portfolio_div1_Html += `<div class="animate__animated animate__zoomIn animate__slow Portfolio-IMG">`;
+                portfolio_div1_Html += `<div class="wow animate__animated animate__zoomIn animate__slow Portfolio-IMG">`;
                 portfolio_div1_Html += `<img src="${portfolio[i].url}" class="" alt="${portfolio[i].title ? portfolio[i].title : ''}">`;
                 portfolio_div1_Html += `<h3>${portfolio[i].title ? portfolio[i].title : ''}</h3>`;
                 portfolio_div1_Html += `<small>${portfolio[i].description ? portfolio[i].description : ''}</small>`;
                 portfolio_div1_Html += `</div>`;
             } else {
-                portfolio_div2_Html += `<div class="animate__animated animate__zoomIn animate__slow Portfolio-IMG">`;
+                portfolio_div2_Html += `<div class="wow animate__animated animate__zoomIn animate__slow Portfolio-IMG">`;
                 portfolio_div2_Html += `<img src="${portfolio[i].url}" class="" alt="${portfolio[i].title ? portfolio[i].title : ''}">`;
                 portfolio_div2_Html += `<h3>${portfolio[i].title ? portfolio[i].title : ''}</h3>`;
                 portfolio_div2_Html += `<small>${portfolio[i].description ? portfolio[i].description : ''}</small>`;
@@ -128,21 +128,21 @@ function loadHTMLportfolio() {
         let portfolio_div3_Html = `<div class="portfolio-col">`;
         for (i = 0; i < portfolio.length; i++) {
             if (i % 3 == 0) { //every 3rd element
-                portfolio_div2_Html += `<div class="animate__animated animate__zoomIn animate__slow Portfolio-IMG">`;
+                portfolio_div2_Html += `<div class="wow animate__animated animate__zoomIn animate__slow Portfolio-IMG">`;
                 portfolio_div2_Html += `<img src="${portfolio[i].url}" class="" alt="${portfolio[i].title ? portfolio[i].title : ''}">`;
                 portfolio_div2_Html += `<h3>${portfolio[i].title ? portfolio[i].title : ''}</h3>`;
                 portfolio_div2_Html += `<small>${portfolio[i].description ? portfolio[i].description : ''}</small>`;
                 portfolio_div2_Html += `</div>`;
             }
             else if ((i + 1) % 3 == 0) { //every 2nd element
-                portfolio_div3_Html += `<div class="animate__animated animate__zoomIn animate__slow Portfolio-IMG">`;
+                portfolio_div3_Html += `<div class="wow animate__animated animate__zoomIn animate__slow Portfolio-IMG">`;
                 portfolio_div3_Html += `<img src="${portfolio[i].url}" class="" alt="${portfolio[i].title ? portfolio[i].title : ''}">`;
                 portfolio_div3_Html += `<h3>${portfolio[i].title ? portfolio[i].title : ''}</h3>`;
                 portfolio_div3_Html += `<small>${portfolio[i].description ? portfolio[i].description : ''}</small>`;
                 portfolio_div3_Html += `</div>`;
             }
             else {
-                portfolio_div1_Html += `<div class="animate__animated animate__zoomIn animate__slow Portfolio-IMG">`;
+                portfolio_div1_Html += `<div class="wow animate__animated animate__zoomIn animate__slow Portfolio-IMG">`;
                 portfolio_div1_Html += `<img src="${portfolio[i].url}" class="" alt="${portfolio[i].title ? portfolio[i].title : ''}">`;
                 portfolio_div1_Html += `<h3>${portfolio[i].title ? portfolio[i].title : ''}</h3>`;
                 portfolio_div1_Html += `<small>${portfolio[i].description ? portfolio[i].description : ''}</small>`;

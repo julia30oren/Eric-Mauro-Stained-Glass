@@ -39,6 +39,12 @@ main>div {
     padding: 18px;
 }
 
+#log-in>.input-group{
+    max-width: 500px;
+    margin: auto;
+    justify-content: center;
+}
+
 .btn-close-div {
     width: 100%;
     display: flex;
@@ -56,4 +62,23 @@ main>div {
 
 .red-txt{
     color: red;
+}
+.grey-txt{
+    color: rgb(167, 167, 167);
+}
+tr{
+    display: flex;
+    flex-direction: column;
+    border: black solid 1px;
+    padding: 5%;
+}
+
+.edit-row-btn{
+    margin-left: 20px;
+}
+
+@media only screen and (max-device-width: 768px) {
+    .update-image{
+        max-width: 90vw;
+    }
 }

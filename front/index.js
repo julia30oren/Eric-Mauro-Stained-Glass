@@ -1,4 +1,4 @@
-const host = 'http://ec2-13-59-200-71.us-east-2.compute.amazonaws.com:3000';
+const host = 'http://13.59.200.71:3000';
 let portfolio;
 
 const imgTableUpdateSection = document.querySelector('#img-table-update');
@@ -169,7 +169,7 @@ function insertRowIntoTable(data) {
             if (key === 'createdAt') {
                 data[key] = new Date(data[key]).toLocaleDateString();
             }
-            tableHtml += `<td>${data[key]}</td>`;
+            tableHtml += `<td>${data[key] ? data[key] : ''}</td>`;
         }
     }
 
@@ -231,13 +231,12 @@ function loadHTMLtable(data) {
 
     data.forEach(element => {
         tableHtml += "<tr>";
-        tableHtml += `<td>${element.id}</td>`;
+        // tableHtml += `<td>${element.id}</td>`;
         tableHtml += `<td><img src="${element.url}" class="thumbnail" alt="Bad Thumbnail URL"></td>`;
-        tableHtml += `<td>${element.title ? element.title : ''}</td>`;
-        tableHtml += `<td>${element.description ? element.description : ''}</td>`;
+        tableHtml += `<td>${element.title ? element.title : '<span class="grey-txt">No Title</span>'}</td>`;
+        tableHtml += `<td>${element.description ? element.description : '<span class="grey-txt">No Description</span>'}</td>`;
         tableHtml += `<td>${new Date(element.createdAt).toLocaleDateString()}</td>`;
-        tableHtml += `<td><button class="delete-row-btn btn btn-danger" data-id=${element.id}>Delete</td>`;
-        tableHtml += `<td><button class="edit-row-btn btn btn-warning" data-id=${element.id}>Edit</td>`;
+        tableHtml += `<td><button class="delete-row-btn btn btn-danger" data-id=${element.id}>Delete <button class="edit-row-btn btn btn-warning" data-id=${element.id}>Edit</td>`;
         tableHtml += "</tr>";
     });
 
