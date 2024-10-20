@@ -22,7 +22,7 @@ const description_input_update = document.querySelector('#update-description-inp
 const date_input_update = document.querySelector('#update-date-input');
 
 function adminValidationCheck() {
-    fetch(host + '/' + logInUserInput.value + '/' + logInPasswordInput.value)
+    fetch(host + '/admin/' + logInUserInput.value + '/' + logInPasswordInput.value)
         .then(response => response.json())
         .then(data => {
             if (data[0]) {
@@ -231,7 +231,6 @@ function loadHTMLtable(data) {
 
     data.forEach(element => {
         tableHtml += "<tr>";
-        // tableHtml += `<td>${element.id}</td>`;
         tableHtml += `<td><img src="${element.url}" class="thumbnail" alt="Bad Thumbnail URL"></td>`;
         tableHtml += `<td>${element.title ? element.title : '<span class="grey-txt">No Title</span>'}</td>`;
         tableHtml += `<td>${element.description ? element.description : '<span class="grey-txt">No Description</span>'}</td>`;
