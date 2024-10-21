@@ -5,7 +5,7 @@ const imgTableUpdateSection = document.querySelector('#img-table-update');
 const logInSection = document.querySelector('#log-in');
 const logInUserInput = document.querySelector('#log-in-user');
 const logInPasswordInput = document.querySelector('#log-in-password');
-const logInBtn = document.querySelector('#log-in-btn');
+const logInBtn = document.getElementById('log-in-btn');
 const invalidInfo = document.querySelector('#invalid-info');
 
 var table = document.querySelector('table tbody');
@@ -21,21 +21,54 @@ const title_input_update = document.querySelector('#update-name-input');
 const description_input_update = document.querySelector('#update-description-input');
 const date_input_update = document.querySelector('#update-date-input');
 
-function adminValidationCheck() {
-    fetch(host + '/admin/' + logInUserInput.value + '/' + logInPasswordInput.value)
+function setCookie(cvalue) {
+    const d = new Date();
+    d.setTime(d.getTime() + (24 * 60 * 60 * 1000));
+    let expires = "expires=" + d.toUTCString();
+    document.cookie = "username=" + cvalue + ";" + expires + ";path=/";
+
+    checkCookie()
+}
+
+function getCookie() {
+    let admin_name;
+    let decodedCookie = decodeURIComponent(document.cookie);
+    if (decodedCookie) {
+        admin_name = decodedCookie.split("=").pop();
+        if (admin_name) return admin_name;
+        else return null;
+    } else return null;
+}
+
+function checkCookie() {
+    console.log('checkCookie()');
+
+    if (getCookie()) {
+        console.log(getCookie());
+        logInSection.hidden = true;
+        imgTableUpdateSection.hidden = false;
+        console.log("User loged-in");
+    } else {
+        console.log("User NOT loged-in");
+    }
+}
+
+function adminValidationCheck(user, pass) {
+    fetch(host + '/admin/' + user + '/' + pass)
         .then(response => response.json())
         .then(data => {
             if (data[0]) {
                 logInSection.hidden = true;
                 imgTableUpdateSection.hidden = false;
-                setCookie("username", logInUserInput.value);
+                setCookie(logInUserInput.value);
             } else {
                 invalidInfo.innerHTML = `<sapn class="red-txt">* User/Password incorrect.</sapn>`
             }
         });
 }
 
-logInBtn.addEventListener('click', () => {
+logInBtn.addEventListener('click', (event) => {
+    console.log('logInBtn click');
     invalidInfo.innerHTML = ``;
 
     if (!logInUserInput.value && !logInPasswordInput.value) {
@@ -44,7 +77,9 @@ logInBtn.addEventListener('click', () => {
         invalidInfo.innerHTML = `<sapn class="red-txt">* User can not be empty.</sapn>`
     } else if (logInUserInput.value && !logInPasswordInput.value) {
         invalidInfo.innerHTML = `<sapn class="red-txt">* Password can not be empty.</sapn>`
-    } else adminValidationCheck();
+    } else {
+        adminValidationCheck(logInUserInput.value, logInPasswordInput.value);
+    }
 });
 
 table.addEventListener('click', (event) => {
@@ -185,39 +220,6 @@ function insertRowIntoTable(data) {
         newRow.innerHTML = tableHtml;
     }
 }
-function setCookie(cname, cvalue) {
-    const d = new Date();
-    d.setTime(d.getTime() + (24 * 60 * 60 * 1000));
-    let expires = "expires=" + d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
-
-function getCookie(cname) {
-    let name = cname + "=";
-    let decodedCookie = decodeURIComponent(document.cookie);
-    let ca = decodedCookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
-}
-
-function checkCookie() {
-    let user = getCookie("username");
-    if (user && user != "") {
-        console.log(user + " loged-in");
-        logInSection.hidden = true;
-        imgTableUpdateSection.hidden = false;
-    } else {
-        console.log(user + " NOT loged-in");
-    }
-}
 
 function loadHTMLtable(data) {
     if (data.length === 0) {
@@ -240,11 +242,11 @@ function loadHTMLtable(data) {
     });
 
     table.innerHTML = tableHtml;
-
-    checkCookie();
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+    checkCookie();
+
     fetch(host + '/getall')
         .then(res => res.json())
         .then(data => {
